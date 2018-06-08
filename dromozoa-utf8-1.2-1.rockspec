@@ -1,16 +1,16 @@
 -- This file was automatically generated for the LuaDist project.
 
 package = "dromozoa-utf8"
-version = "1.1-2"
+version = "1.2-1"
 -- LuaDist source
 source = {
-  tag = "1.1-2",
+  tag = "1.2-1",
   url = "git://github.com/LuaDist-testing/dromozoa-utf8.git"
 }
 -- Original source
 -- source = {
---   url = "https://github.com/dromozoa/dromozoa-utf8/archive/v1.1.tar.gz";
---   file = "dromozoa-utf8-1.1.tar.gz";
+--   url = "https://github.com/dromozoa/dromozoa-utf8/archive/v1.2.tar.gz";
+--   file = "dromozoa-utf8-1.2.tar.gz";
 -- }
 description = {
   summary = "Lua 5.3 compatible pure-Lua UTF-8 implementation";
