@@ -1,4 +1,4 @@
--- Copyright (C) 2017,2018 Tomoyuki Fujimori <moyu@dromozoa.com>
+-- Copyright (C) 2018 Tomoyuki Fujimori <moyu@dromozoa.com>
 --
 -- This file is part of dromozoa-utf8.
 --
@@ -19,34 +19,32 @@ local builder = require "dromozoa.ucd.builder"
 
 local unpack = table.unpack or unpack
 
-local source_filename = "docs/10.0.0/ucd/EastAsianWidth.txt"
-local result_filename = "dromozoa/ucd/east_asian_width.lua"
+local source_filename = "docs/10.0.0/ucd/UnicodeData.txt"
+local result_filename = "dromozoa/ucd/general_category.lua"
 
-local properties = {
-  ["N"]  = true; -- neutral
-  ["Na"] = true; -- narrow
-  ["H"]  = true; -- halfwidth
-  ["A"]  = true; -- ambiguous
-  ["W"]  = true; -- wide
-  ["F"]  = true; -- fullwidth
-}
+local _ = builder("Cn")
 
-local _ = builder("N")
+local prev_code
+local prev_property
 
 for line in io.lines(source_filename) do
-  local first, last, property = line:match("^(%x+)%.%.(%x+);(%a+)")
-  if not first then
-    first, property = line:match("^(%x+);(%a+)")
-    last = first
-  end
-  if first then
-    local first = tonumber(first, 16)
-    local last = tonumber(last, 16)
-    assert(first <= last)
-    assert(not prev or prev < first)
-    assert(properties[property])
-    _:range(first, last, property)
-    prev = last
+  local code, name, property = assert(line:match "^(%x+);(.-);(.-);")
+  code = tonumber(code, 16)
+  if name:find ", First>$" then
+    prev_code = code
+    prev_property = property
+  else
+    if name:find ", Last>$" then
+      assert(prev_code < code)
+      assert(prev_property == property)
+      _:range(prev_code, code, property)
+      prev_code = nil
+      prev_property = nil
+    else
+      assert(not prev_code)
+      assert(not prev_property)
+      _:range(code, code, property)
+    end
   end
 end
 

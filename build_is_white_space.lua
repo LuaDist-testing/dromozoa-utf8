@@ -19,8 +19,8 @@ local builder = require "dromozoa.ucd.builder"
 
 local unpack = table.unpack or unpack
 
-local source_filename = "docs/PropList-10.0.0.txt"
-local code_filename = "dromozoa/ucd/is_white_space.lua"
+local source_filename = "docs/10.0.0/ucd/PropList.txt"
+local result_filename = "dromozoa/ucd/is_white_space.lua"
 
 local _ = builder(false)
 
@@ -41,6 +41,5 @@ for line in io.lines(source_filename) do
 end
 
 local data = _:build()
-
-local out = assert(io.open(code_filename, "w"))
+local out = assert(io.open(result_filename, "w"))
 _.compile(out, data):close()
